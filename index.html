@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0877e8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Zalo Call Control">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>Zalo Call Control</title>
+  <style>
+    :root { color-scheme: light; --blue:#0877e8; --ink:#172033; --muted:#667085; --line:#e5eaf1; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:#f3f6fb; color:var(--ink); }
+    main { max-width:520px; min-height:100vh; margin:auto; padding:24px 18px calc(28px + env(safe-area-inset-bottom)); }
+    header { display:flex; align-items:center; gap:12px; margin:10px 0 24px; }
+    .logo { width:48px; height:48px; border-radius:15px; display:grid; place-items:center; background:#e3f0ff; font-size:25px; }
+    h1 { font-size:21px; margin:0; } .sub { color:var(--muted); font-size:13px; margin-top:4px; }
+    .card { background:white; border:1px solid var(--line); border-radius:20px; padding:18px; margin:14px 0; box-shadow:0 5px 18px #1c33500a; }
+    .eyebrow { color:var(--muted); font-size:11px; font-weight:700; letter-spacing:.08em; }
+    .state { display:flex; justify-content:space-between; align-items:center; gap:10px; margin:10px 0 6px; }
+    .state strong { font-size:22px; }
+    .pill { border-radius:999px; padding:6px 10px; font-size:12px; font-weight:700; background:#fff3d6; color:#946200; }
+    .pill.on { background:#e5f7ed; color:#147a43; }
+    button { border:0; border-radius:13px; padding:14px 16px; font-size:15px; font-weight:700; cursor:pointer; width:100%; }
+    .primary { background:var(--blue); color:white; margin-top:12px; }
+    .secondary { background:#edf4fc; color:#075db5; margin-top:8px; }
+    .warning { background:#fff7e8; border:1px solid #f5dfb5; color:#76510b; }
+    h2 { font-size:16px; margin:0 0 12px; }
+    ol { padding-left:22px; margin:0; } li { padding:5px 0; line-height:1.45; }
+    .note { color:var(--muted); font-size:12px; line-height:1.5; }
+    .check { display:flex; gap:10px; align-items:flex-start; padding:9px 0; border-bottom:1px solid var(--line); font-size:14px; }
+    .check:last-child { border:0; } input { margin-top:3px; width:18px; height:18px; accent-color:var(--blue); }
+    footer { color:var(--muted); font-size:11px; text-align:center; padding:12px; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="logo">📵</div>
+    <div><h1>Zalo Call Control</h1><div class="sub">Trợ lý thiết lập hạn chế làm phiền trên iPhone</div></div>
+  </header>
+
+  <section class="card">
+    <div class="eyebrow">CHẾ ĐỘ HẠN CHẾ LÀM PHIỀN</div>
+    <div class="state">
+      <strong id="stateText">ĐANG TẮT</strong>
+      <span class="pill" id="statePill">Chưa bật</span>
+    </div>
+    <p class="note" id="stateNote">Bật chế độ để xem hướng dẫn cấu hình. Ứng dụng này không trực tiếp chặn cuộc gọi Zalo.</p>
+    <button class="primary" id="toggleBtn">BẬT CHẾ ĐỘ HƯỚNG DẪN</button>
+    <button class="secondary" id="guideBtn">Xem hướng dẫn thiết lập</button>
+  </section>
+
+  <section class="card" id="guide">
+    <h2>Thiết lập trên iPhone</h2>
+    <ol>
+      <li>Mở <b>Cài đặt iPhone → Thông báo → Zalo</b>.</li>
+      <li>Nếu tắt “Cho phép thông báo”, iPhone sẽ không hiện thông báo Zalo — điều này có thể ảnh hưởng cả thông báo tin nhắn.</li>
+      <li>Để vẫn nhận thông báo tin nhắn, hãy giữ thông báo Zalo bật và kiểm tra trong Zalo mục <b>Cá nhân → Cài đặt → Quyền riêng tư</b> xem có tùy chọn quản lý người được gọi hay không.</li>
+      <li>Nếu Zalo không có lựa chọn “Không ai”, hiện không có cách được hỗ trợ để chặn tuyệt đối mọi cuộc gọi nhưng vẫn giữ nguyên mọi thông báo tin nhắn.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>Danh sách kiểm tra</h2>
+    <label class="check"><input type="checkbox" id="c1"> Đã kiểm tra cài đặt quyền riêng tư/cuộc gọi trong Zalo</label>
+    <label class="check"><input type="checkbox" id="c2"> Đã quyết định giữ hay tắt thông báo Zalo trên iPhone</label>
+    <label class="check"><input type="checkbox" id="c3"> Đã thử nhờ người quen gửi tin nhắn và gọi thử</label>
+    <p class="note">Các dấu kiểm chỉ được lưu trên thiết bị này; chúng không thay đổi cài đặt của Zalo hoặc iOS.</p>
+  </section>
+
+  <section class="card warning">
+    <h2>Giới hạn quan trọng</h2>
+    <p class="note" style="color:inherit;margin:0">Ứng dụng web không thể điều khiển riêng kết nối cuộc gọi Zalo, thay đổi trạng thái mạng của Zalo hoặc làm người gọi chắc chắn thấy “Không có mạng”. Không cài VPN/ứng dụng lạ để can thiệp mạng vì có thể gây lỗi kết nối hoặc rủi ro bảo mật.</p>
+  </section>
+  <footer>Phiên bản thử nghiệm • Không liên kết hoặc được Zalo bảo trợ</footer>
+</main>
+<script>
+  const toggleBtn = document.getElementById('toggleBtn');
+  const stateText = document.getElementById('stateText');
+  const statePill = document.getElementById('statePill');
+  const stateNote = document.getElementById('stateNote');
+  let enabled = localStorage.getItem('zcc-enabled') === 'true';
+
+  function render() {
+    stateText.textContent = enabled ? 'ĐANG BẬT' : 'ĐANG TẮT';
+    statePill.textContent = enabled ? 'Đã bật hướng dẫn' : 'Chưa bật';
+    statePill.classList.toggle('on', enabled);
+    toggleBtn.textContent = enabled ? 'TẮT CHẾ ĐỘ HƯỚNG DẪN' : 'BẬT CHẾ ĐỘ HƯỚNG DẪN';
+    stateNote.textContent = enabled
+      ? 'Chế độ hướng dẫn đang bật. Hãy làm theo các bước bên dưới; công tắc này không trực tiếp chặn cuộc gọi.'
+      : 'Bật chế độ để xem hướng dẫn cấu hình. Công tắc này chỉ lưu lựa chọn trong ứng dụng.';
+  }
+  toggleBtn.addEventListener('click', () => {
+    enabled = !enabled;
+    localStorage.setItem('zcc-enabled', String(enabled));
+    render();
+  });
+  document.getElementById('guideBtn').addEventListener('click', () => {
+    document.getElementById('guide').scrollIntoView({behavior:'smooth'});
+  });
+  ['c1','c2','c3'].forEach(id => {
+    const el = document.getElementById(id);
+    el.checked = localStorage.getItem(id) === 'true';
+    el.addEventListener('change', () => localStorage.setItem(id, String(el.checked)));
+  });
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  }
+  render();
+</script>
+</body>
+</html>

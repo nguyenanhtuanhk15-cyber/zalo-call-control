@@ -1,0 +1,10 @@
+{
+  "name": "Zalo Call Control",
+  "short_name": "Zalo Control",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f6fb",
+  "theme_color": "#0877e8",
+  "description": "Trợ lý thiết lập hạn chế làm phiền trên iPhone",
+  "icons": []
+}
